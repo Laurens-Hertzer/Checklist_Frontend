@@ -12,9 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Checklist_Frontend">
         <activity
-            android:name=".MainActivity"
+            android:name="ch.bbw.lah.checklist_frontend.MainActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

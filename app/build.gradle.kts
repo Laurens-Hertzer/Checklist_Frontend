@@ -3,13 +3,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.checklist_frontend"
+    namespace = "ch.bbw.lah.checklist_frontend"
     compileSdk {
         version = release(37)
     }
 
     defaultConfig {
-        applicationId = "com.example.checklist_frontend"
+        applicationId = "ch.bbw.lah.checklist_frontend"
         minSdk = 24
         targetSdk = 37
         versionCode = 1
