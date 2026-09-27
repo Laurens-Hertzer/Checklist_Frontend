@@ -8,6 +8,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.Button
 import android.widget.EditText
+import android.widget.GridView
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import ch.bbw.lah.checklist_frontend.R
@@ -18,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     private var dataModel: ArrayList<DataModel>? = null
 
     // Declaring the elements from the main layout file
-    private lateinit var listView: ListView
+    private lateinit var gridView: GridView
     private lateinit var adapter: CustomAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Initializing the elements from the main layout file
-        listView = findViewById<View>(R.id.list_view_1) as ListView
+        val gridView = findViewById<GridView>(R.id.grid_view_1)
 
         // Initializing the model and adding data
         dataModel = ArrayList<DataModel>()
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
         // Setting the adapter
         adapter = CustomAdapter(dataModel!!, applicationContext)
-        listView.adapter = adapter
+        gridView.adapter = adapter
 
         // Setup the Input Logic
         val editText = findViewById<EditText>(R.id.editTextNewItem)
@@ -63,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Upon item click, checkbox will be set to checked
-        listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+        gridView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             val item: DataModel = dataModel!![position]
             item.checked = !item.checked
             adapter.notifyDataSetChanged()

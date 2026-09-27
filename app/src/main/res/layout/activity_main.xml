@@ -30,15 +30,20 @@
             android:text="Add" />
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/list_view_1"
-        android:layout_width="203dp"
-        android:layout_height="115dp"
+    <GridView
+        android:id="@+id/grid_view_1"
+        android:layout_width="339dp"
+        android:layout_height="334dp"
+        android:horizontalSpacing="8dp"
+        android:numColumns="2"
+        android:padding="8dp"
+        android:verticalSpacing="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.695"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/input_area"
         app:layout_constraintVertical_bias="0.0" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
