@@ -32,18 +32,24 @@
 
     <GridView
         android:id="@+id/grid_view_1"
-        android:layout_width="339dp"
-        android:layout_height="334dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:horizontalSpacing="8dp"
         android:numColumns="2"
         android:padding="8dp"
         android:verticalSpacing="8dp"
+        app:layout_constraintWidth_percent="0.33"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/input_area"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@id/input_area" />
 
+    <View
+        android:id="@+id/divider"
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/grid_view_1"
+        app:layout_constraintTop_toTopOf="@id/grid_view_1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
