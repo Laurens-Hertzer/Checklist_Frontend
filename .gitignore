@@ -13,3 +13,8 @@
 .externalNativeBuild
 .cxx
 local.properties
+.compose_cache/
+.kotlin/
+.incremental/
+*.log
+hs_err_pid*
