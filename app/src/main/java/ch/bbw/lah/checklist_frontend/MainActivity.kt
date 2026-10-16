@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
             lifecycleScope.launch {
                 try {
-                    RetrofitClient.apiService.updateItem(item.id, item)
+                    RetrofitClient.apiService.updateItem(item.checklistId, item)
                     loadChecklist()
                 } catch (e: Exception) {
                     e.printStackTrace()
