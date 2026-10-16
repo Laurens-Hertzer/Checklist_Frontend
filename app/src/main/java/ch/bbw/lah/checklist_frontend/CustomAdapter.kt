@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.CheckBox
 import android.widget.TextView
+import ch.bbw.lah.checklist_frontend.model.Checklist
 
 class CustomAdapter(private val dataSet: ArrayList<*>, mContext: Context) :
     ArrayAdapter<Any?>(mContext, R.layout.raw_item, dataSet) {
@@ -19,8 +20,8 @@ class CustomAdapter(private val dataSet: ArrayList<*>, mContext: Context) :
         return dataSet.size
     }
 
-    override fun getItem(position: Int): DataModel {
-        return dataSet[position] as DataModel
+    override fun getItem(position: Int): Checklist {
+        return dataSet[position] as Checklist
     }
 
     override fun getView(
@@ -46,9 +47,9 @@ class CustomAdapter(private val dataSet: ArrayList<*>, mContext: Context) :
             result = convertView
         }
 
-        val item: DataModel = getItem(position)
-        viewHolder.txtName.text = item.name
-        viewHolder.checkBox.isChecked = item.checked
+        val item: Checklist = getItem(position)
+        viewHolder.txtName.text = item.task
+        viewHolder.checkBox.isChecked = item.completed
         return result
     }
 }

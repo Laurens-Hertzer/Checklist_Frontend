@@ -1,73 +1,98 @@
 package ch.bbw.lah.checklist_frontend
 
+import android.annotation.SuppressLint
 import android.graphics.Rect
+import android.os.Build
 import android.os.Bundle
 import android.view.MotionEvent
-import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.GridView
-import android.widget.ListView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import ch.bbw.lah.checklist_frontend.R
+import ch.bbw.lah.checklist_frontend.model.Checklist
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
-    // Declaring the DataModel Array
-    private var dataModel: ArrayList<DataModel>? = null
+    private var checklist: ArrayList<Checklist>? = null
 
-    // Declaring the elements from the main layout file
     private lateinit var gridView: GridView
     private lateinit var adapter: CustomAdapter
 
+    @SuppressLint("SuspiciousIndentation")
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Initializing the elements from the main layout file
-        val gridView = findViewById<GridView>(R.id.grid_view_1)
+        gridView = findViewById(R.id.grid_view_1)
 
-        // Initializing the model and adding data
-        dataModel = ArrayList<DataModel>()
-        dataModel!!.add(DataModel("Apple Pie", false))
-        dataModel!!.add(DataModel("Banana Bread", false))
-        dataModel!!.add(DataModel("Cupcake", false))
-        dataModel!!.add(DataModel("Donut", true))
-        dataModel!!.add(DataModel("Eclair", true))
+        checklist = ArrayList<Checklist>()
 
-        // Setting the adapter
-        adapter = CustomAdapter(dataModel!!, applicationContext)
+        adapter = CustomAdapter(checklist!!, applicationContext)
         gridView.adapter = adapter
 
-        // Setup the Input Logic
+        loadChecklist()
+
         val editText = findViewById<EditText>(R.id.editTextNewItem)
         val addButton = findViewById<Button>(R.id.buttonAdd)
 
         addButton.setOnClickListener {
             val itemName = editText.text.toString()
             if (itemName.isNotEmpty()) {
-                // 1. Add new data to the list
-                dataModel?.add(DataModel(itemName, false))
 
-                // 2. Tell the adapter to refresh the screen
-                adapter.notifyDataSetChanged()
+                val newItem = Checklist(
+                    task = itemName,
+                    completed = false,
+                    dueDate = "2026-10-15"
+                )
 
-                // 3. Clear the input
-                editText.text.clear()
+                lifecycleScope.launch {
+                    try {
+                        RetrofitClient.apiService.saveItem(newItem)
+                        editText.text.clear()
 
-                // 4. Tastatur schließen
-                val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(it.windowToken, 0)
+                        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                        imm.hideSoftInputFromWindow(it.windowToken, 0)
+
+                        loadChecklist()
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
             }
         }
 
-        // Upon item click, checkbox will be set to checked
         gridView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            val item: DataModel = dataModel!![position]
-            item.checked = !item.checked
+            val item: Checklist = checklist!![position]
+            item.completed = !item.completed
             adapter.notifyDataSetChanged()
+            lifecycleScope.launch {
+                try {
+                    RetrofitClient.apiService.updateItem(item.id, item)
+                    loadChecklist()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+
+    private fun loadChecklist() {
+        lifecycleScope.launch {
+            try {
+                val dbItems = RetrofitClient.apiService.getChecklist()
+                checklist?.clear()
+                checklist?.addAll(dbItems)
+                adapter.notifyDataSetChanged()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 

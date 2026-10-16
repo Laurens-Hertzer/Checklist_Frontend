@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    kotlin("plugin.serialization") version "1.9.0"
 }
 
 android {
@@ -40,4 +41,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.coroutines.android)
 }
